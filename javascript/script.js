@@ -9,6 +9,28 @@ function initMap() {
     center: {lat: 40.7413549, lng: -73.9980244},
     zoom: 13
   });
+}
+
+// This function populates the infowindow when the marker is clicked. We'll only allow
+// one infowindow which will open at the marker that is clicked, and populate based
+// on that markers position.
+function populateInfoWindow(marker, infowindow) {
+  // Check to make sure the infowindow is not already opened on this marker.
+  if (infowindow.marker != marker) {
+    infowindow.marker = marker;
+    console.log("You clicked: " + marker.title)
+    console.log("The infowindow is: " + infowindow)
+    infowindow.setContent('<div>' + marker.title + '</div>');
+    infowindow.open(map, marker);
+    // Make sure the marker property is cleared if the infowindow is closed.
+    infowindow.addListener('closeclick',function(){
+      infowindow.setMarker = null;
+    });
+  }
+}
+
+function ViewModel() {
+
   // These are the real estate listings that will be shown to the user.
   var locations = [
     {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
@@ -18,8 +40,12 @@ function initMap() {
     {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
     {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
   ];
+
   var largeInfowindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();
+
+  console.log("Building observable array")
+
   // The following group uses the location array to create an array of markers on initialize.
   for (var i = 0; i < locations.length; i++) {
     // Get the position from the location array.
@@ -45,41 +71,15 @@ function initMap() {
   // Extend the boundaries of the map for each marker
   map.fitBounds(bounds);
 
-  // Call view model
+  this.listArray = ko.observableArray(markers);
+
+  this.hello = function() {
+    var currentVal = this.title;        // Read the current value
+    console.log(currentVal); // Write back a modified value
+  };
+}
+
+// Call view model
+window.onload = function() {
   ko.applyBindings(new ViewModel());
-}
-
-// This function populates the infowindow when the marker is clicked. We'll only allow
-// one infowindow which will open at the marker that is clicked, and populate based
-// on that markers position.
-function populateInfoWindow(marker, infowindow) {
-  console.log("You clicked: " + this.title)
-  // Check to make sure the infowindow is not already opened on this marker.
-  if (infowindow.marker != marker) {
-    infowindow.marker = marker;
-    console.log("Set infowindow-marker equal to marker")
-    infowindow.setContent('<div>' + marker.title + '</div>');
-    infowindow.open(map, marker);
-    // Make sure the marker property is cleared if the infowindow is closed.
-    infowindow.addListener('closeclick',function(){
-      infowindow.setMarker = null;
-    });
-  }
-}
-
-function ViewModel() {
-  console.log("Building observable array")
-
-  this.listArray = ko.observableArray([
-    { listItem: markers[0].title },
-    { listItem: markers[1].title },
-    { listItem: markers[2].title },
-    { listItem: markers[3].title },
-    { listItem: markers[4].title },
-    { listItem: markers[5].title }
-  ]);
-
-  hello = function(){
-    console.log("My title is: " + this.title)
-  }
-}
+};
