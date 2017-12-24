@@ -71,12 +71,14 @@ function ViewModel() {
   // Extend the boundaries of the map for each marker
   map.fitBounds(bounds);
 
+  // Add all markers to an observable array with a function
+  // for calling populateInfoWindow on each item
   this.listArray = ko.observableArray(markers);
-
-  this.hello = function() {
-    var currentVal = this.title;        // Read the current value
-    console.log(currentVal); // Write back a modified value
+  this.openInfoWindow = function() {
+    populateInfoWindow(this, largeInfowindow)
   };
+
+  
 }
 
 // Call view model
