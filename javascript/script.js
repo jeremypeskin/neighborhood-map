@@ -30,6 +30,7 @@ function populateInfoWindow(marker, infowindow) {
 }
 
 function ViewModel() {
+  var self = this;
 
   // These are the real estate listings that will be shown to the user.
   var locations = [
@@ -73,13 +74,28 @@ function ViewModel() {
 
   // Add all markers to an observable array with a function
   // for calling populateInfoWindow on each item
-  this.listArray = ko.observableArray(markers);
-  this.openInfoWindow = function() {
+  self.properties = ko.observableArray(markers);
+  console.log(self.properties()[1].title)
+
+  self.openInfoWindow = function() {
     populateInfoWindow(this, largeInfowindow)
   };
 
-  
-}
+  self.query = ko.observable('');
+
+  self.search = function(value) {
+
+
+
+    for(var property in self.properties()) {
+      if(self.properties()[property].title.toLowerCase().indexOf(value.toLowerCase()) < 0) {
+        self.properties.remove(self.properties()[property])
+      }
+    }
+  };
+
+  self.query.subscribe(self.search);
+};
 
 // Call view model
 window.onload = function() {
