@@ -4,3 +4,7 @@ html, body {
 #map {
   height: 100%;
 }
+.container {
+  padding:0px;
+  max-width: none;
+}

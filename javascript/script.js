@@ -3,6 +3,7 @@ var map;
 var markers = [];
 
 function initMap() {
+  console.log("Initiating the map")
   // Constructor creates a new map - only center and zoom are required.
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 40.7413549, lng: -73.9980244},
@@ -33,6 +34,7 @@ function initMap() {
       id: i
     });
     // Push the marker to our array of markers.
+    console.log("Adding markers to array")
     markers.push(marker);
     // Create an onclick event to open an infowindow at each marker.
     marker.addListener('click', function() {
@@ -42,15 +44,20 @@ function initMap() {
   }
   // Extend the boundaries of the map for each marker
   map.fitBounds(bounds);
+
+  // Call view model
+  ko.applyBindings(new ViewModel());
 }
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
 function populateInfoWindow(marker, infowindow) {
+  console.log("You clicked: " + this.title)
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
     infowindow.marker = marker;
+    console.log("Set infowindow-marker equal to marker")
     infowindow.setContent('<div>' + marker.title + '</div>');
     infowindow.open(map, marker);
     // Make sure the marker property is cleared if the infowindow is closed.
@@ -60,15 +67,19 @@ function populateInfoWindow(marker, infowindow) {
   }
 }
 
-var ViewModel = function() {
-  this.listArray = ko.observableArray([
-    { listItem: "Park Ave Penthouse" },
-    { listItem: "Chelsea Loft" },
-    { listItem: "Union Square Open Floor Plan" },
-    { listItem: "East Village Hip Studio" },
-    { listItem: "TriBeCa Artsy Bachelor Pad" },
-    { listItem: "Chinatown Homey Space" }
-  ])
-}
+function ViewModel() {
+  console.log("Building observable array")
 
-ko.applyBindings(new ViewModel());
+  this.listArray = ko.observableArray([
+    { listItem: markers[0].title },
+    { listItem: markers[1].title },
+    { listItem: markers[2].title },
+    { listItem: markers[3].title },
+    { listItem: markers[4].title },
+    { listItem: markers[5].title }
+  ]);
+
+  hello = function(){
+    console.log("My title is: " + this.title)
+  }
+}
