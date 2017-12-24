@@ -11,7 +11,7 @@ API Course, Lesson 1 -->
     <div class="row">
       <div class="col-2">
         <ul data-bind="foreach: listArray">
-          <li data-bind="text: title, click: populateInfoWindow">
+          <li data-bind="text: title, click: $parent.hello">
           </li>
         </ul>
       </div>
