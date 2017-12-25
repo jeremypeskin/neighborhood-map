@@ -98,6 +98,13 @@ function ViewModel() {
         property.showItem(false)
       }
     }
+    for(var i in markers) {
+      if(markers[i].title.toLowerCase().indexOf(value.toLowerCase()) > -1) {
+        markers[i].setVisible(true)
+      } else {
+        markers[i].setVisible(false)
+      }
+    }
   }
   self.query.subscribe(self.search);
 
