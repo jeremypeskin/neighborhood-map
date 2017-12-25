@@ -13,7 +13,7 @@ API Course, Lesson 1 -->
         <input placeholder="Search…" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off">
         <ul data-bind="template: {name: 'places', foreach: properties}"></ul>
         <script type="text/html" id="places">
-          <li data-bind="text: title, click: $parent.openInfoWindow">
+          <li data-bind="text: title, click: $parent.openInfoWindow, visible: $parent.shouldShowMessage">
           </li>
         </script>
       </div>

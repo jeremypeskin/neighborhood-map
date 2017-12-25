@@ -82,19 +82,19 @@ function ViewModel() {
   };
 
   self.query = ko.observable('');
+  self.shouldShowMessage = ko.observable(true)
 
   self.search = function(value) {
-
-
-
     for(var property in self.properties()) {
-      if(self.properties()[property].title.toLowerCase().indexOf(value.toLowerCase()) < 0) {
-        self.properties.remove(self.properties()[property])
+      if(self.properties()[property].title.toLowerCase().indexOf(value.toLowerCase()) > -1) {
+        self.shouldShowMessage(true)
+      } else {
+        self.shouldShowMessage(false)
       }
     }
   };
-
   self.query.subscribe(self.search);
+
 };
 
 // Call view model
