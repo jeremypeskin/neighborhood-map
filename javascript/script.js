@@ -82,17 +82,23 @@ function ViewModel() {
   };
 
   self.query = ko.observable('');
-  self.shouldShowMessage = ko.observable(true)
 
-  self.search = function(value) {
-    for(var property in self.properties()) {
-      if(self.properties()[property].title.toLowerCase().indexOf(value.toLowerCase()) > -1) {
-        self.shouldShowMessage(true)
+  for(var i in self.properties()) {
+    self.properties()[i].showItem = ko.observable(true)
+  }
+
+
+  self.search = function(value){
+    for(var i in self.properties()) {
+      var property = self.properties()[i]
+      console.log(self.title)
+      if(property.title.toLowerCase().indexOf(value.toLowerCase()) > -1) {
+        property.showItem(true)
       } else {
-        self.shouldShowMessage(false)
+        property.showItem(false)
       }
     }
-  };
+  }
   self.query.subscribe(self.search);
 
 };

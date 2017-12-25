@@ -10,12 +10,11 @@ API Course, Lesson 1 -->
   <div class="container">
     <div class="row">
       <div class="col-2">
-        <input placeholder="Search…" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off">
-        <ul data-bind="template: {name: 'places', foreach: properties}"></ul>
-        <script type="text/html" id="places">
-          <li data-bind="text: title, click: $parent.openInfoWindow, visible: $parent.shouldShowMessage">
+        <input placeholder="Search…" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="of">
+        <ul data-bind="foreach: properties">
+          <li data-bind="text: title, click: $parent.openInfoWindow, visible: showItem">
           </li>
-        </script>
+        </ul>
       </div>
       <div class="col-10">
         <div id="map"></div>
