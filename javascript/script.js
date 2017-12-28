@@ -42,11 +42,11 @@ function nytApi(location, placeholder) {
     $.each(response, function(key, val) {
         //console.log(val.headline.main);
         //console.log(location);
-        items.push( val.headline.main);
+        items.push(". Top headline: <a href='" + val.web_url + "'target='_blank'>" + val.headline.main + "</a>");
     });
     //console.log("These are the items: " + items[1])
     console.log("This article is about " + location)
-    placeholder.setContent('<div>' + location + ". Top headline: " + items[1] + '</div>')
+    placeholder.setContent("<div>" + location + items[1] + "</div>")
   });
 
   $nytRequest.fail(function() {
