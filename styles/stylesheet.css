@@ -8,3 +8,14 @@ html, body {
   padding:0px;
   max-width: none;
 }
+ul {
+  list-style: none;
+  padding: 0px 0px 0px 10px;
+}
+li {
+  margin-bottom: 10px;
+}
+
+input {
+  margin: 10px;
+}

@@ -15,6 +15,13 @@ function initMap() {
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
 function populateInfoWindow(marker, infowindow) {
+
+   if (marker.getAnimation() !== null) {
+     marker.setAnimation(null);
+   } else {
+     marker.setAnimation(google.maps.Animation.BOUNCE);
+   }
+
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
     infowindow.marker = marker;

@@ -9,14 +9,14 @@ API Course, Lesson 1 -->
 <body>
   <div class="container">
     <div class="row">
-      <div class="col-2">
-        <input placeholder="Search…" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="of">
+      <div class="col-md-2">
+        <input placeholder="Filter" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" class="form-control">
         <ul data-bind="foreach: properties">
           <li data-bind="text: title, click: $parent.openInfoWindow, visible: showItem">
           </li>
         </ul>
       </div>
-      <div class="col-10">
+      <div class="col-md-10">
         <div id="map"></div>
       </div>
     </div>
