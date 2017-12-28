@@ -1,13 +1,20 @@
-<!-- This is the corresponding "starter code" for 04_Hello Map in Udacity and Google's Maps
-API Course, Lesson 1 -->
-<html>
-  <head>
-  <!-- styles put here, but you can include a CSS file and reference it instead! -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Museum Map">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Museum Map</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="styles/stylesheet.css">
+  <link rel="stylesheet" href="styles/stylesheet.css">
 </head>
 <body>
   <div class="container">
+    <div id="errorPage">
+      <p>
+        Oops!  We experienced an error.
+      </p>
+    </div>
     <div class="row">
       <div class="col-md-2">
         <input placeholder="Filter" type="search" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" class="form-control">
@@ -24,10 +31,11 @@ API Course, Lesson 1 -->
 
 
   <script src="javascript/lib/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"  crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"  crossorigin="anonymous"></script>
   <script src="javascript/lib/knockout-3.4.2.js"></script>
   <script type="text/javascript" src="javascript/script.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_dZg5fCq-U_yKf7JtT6rFBQiXCSmLfm0&callback=initMap"
-  async defer></script>
-  </body>
+  async defer onerror="mapError()"></script>
+</body>
 </html>

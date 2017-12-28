@@ -11,6 +11,17 @@ function initMap() {
   });
 }
 
+/**
+ * Error callback for GMap API request
+ */
+mapError = () => {
+  console.log("Executing mapError")
+  var errorPage = document.getElementById("errorPage");
+  console.log("The display is: " + errorPage)
+  errorPage.style.display = 'unset';
+};
+
+
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
@@ -19,6 +30,7 @@ function populateInfoWindow(marker, infowindow) {
    if (marker.getAnimation() !== null) {
      marker.setAnimation(null);
    } else {
+     setTimeout(function(){ marker.setAnimation(null); }, 1400);
      marker.setAnimation(google.maps.Animation.BOUNCE);
    }
 
@@ -51,6 +63,7 @@ function nytApi(location, placeholder) {
   });
   // Handle failures
   $nytRequest.fail(function() {
+    placeholder.setContent("<div>" + location + "</div>")
   });
 }
 
