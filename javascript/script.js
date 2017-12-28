@@ -19,8 +19,8 @@ function populateInfoWindow(marker, infowindow) {
   if (infowindow.marker != marker) {
     infowindow.marker = marker;
     console.log("You clicked: " + marker.title)
-    console.log("The infowindow is: " + infowindow)
-    infowindow.setContent('<div>' + marker.title + '</div>');
+    nytApi(marker.title, infowindow)
+    //infowindow.setContent('<div>' + marker.title + '</div>');
     infowindow.open(map, marker);
     // Make sure the marker property is cleared if the infowindow is closed.
     infowindow.addListener('closeclick',function(){
@@ -29,17 +29,45 @@ function populateInfoWindow(marker, infowindow) {
   }
 }
 
+// NYT API
+function nytApi(location, placeholder) {
+  var $nytRequest = $.getJSON( "https://api.nytimes.com/svc/search/v2/articlesearch.json",
+  {
+    'api-key': "cabc7dfd34754db38a0c723b7291cf43",
+    'q': location
+  },
+  function( data ) {
+    var items = [];
+    var response = data.response.docs;
+    $.each(response, function(key, val) {
+        //console.log(val.headline.main);
+        //console.log(location);
+        items.push( val.headline.main);
+    });
+    //console.log("These are the items: " + items[1])
+    console.log("This article is about " + location)
+    placeholder.setContent('<div>' + location + ". Top headline: " + items[1] + '</div>')
+  });
+
+  $nytRequest.fail(function() {
+    console.log(location + " Could Not Be Loaded");
+  });
+}
+
+
+
+//ViewModel begins here
+
 function ViewModel() {
   var self = this;
 
   // These are the real estate listings that will be shown to the user.
   var locations = [
-    {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
-    {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
-    {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
-    {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
-    {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
-    {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
+    {title: 'Museum of Modern Art', location: {lat: 40.761433, lng: -73.977622}},
+    {title: 'The Met', location: {lat: 40.779437, lng: -73.963244}},
+    {title: 'American Museum of Natural History', location: {lat: 40.781324, lng: -73.973988}},
+    {title: 'Lincoln Center', location: {lat: 40.772464, lng: -73.983489}},
+    {title: 'The Guggenheim', location: {lat: 40.782980, lng: -73.958971}},
   ];
 
   var largeInfowindow = new google.maps.InfoWindow();
@@ -52,13 +80,15 @@ function ViewModel() {
     // Get the position from the location array.
     var position = locations[i].location;
     var title = locations[i].title;
+    //var article = nytApi(locations[i].title)
     // Create a marker per location, and put into markers array.
     var marker = new google.maps.Marker({
       map: map,
       position: position,
       title: title,
       animation: google.maps.Animation.DROP,
-      id: i
+      id: i,
+      //article:article
     });
     // Push the marker to our array of markers.
     console.log("Adding markers to array")
@@ -75,7 +105,6 @@ function ViewModel() {
   // Add all markers to an observable array with a function
   // for calling populateInfoWindow on each item
   self.properties = ko.observableArray(markers);
-  console.log(self.properties()[1].title)
 
   self.openInfoWindow = function() {
     populateInfoWindow(this, largeInfowindow)
@@ -107,7 +136,6 @@ function ViewModel() {
     }
   }
   self.query.subscribe(self.search);
-
 };
 
 // Call view model
