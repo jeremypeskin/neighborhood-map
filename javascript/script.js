@@ -49,7 +49,7 @@ function nytApi(location, placeholder) {
     $.each(response, function(key, val) {
         //console.log(val.headline.main);
         //console.log(location);
-        items.push(". Top headline: <a href='" + val.web_url + "'target='_blank'>" + val.headline.main + "</a>");
+        items.push(". Top News (from the NY Times): <a href='" + val.web_url + "'target='_blank'>" + val.headline.main + "</a>");
     });
     //console.log("These are the items: " + items[1])
     console.log("This article is about " + location)
