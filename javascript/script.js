@@ -25,11 +25,9 @@ function populateInfoWindow(marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
     infowindow.marker = marker;
-    console.log("You clicked: " + marker.title)
+    // Call the NYT API
     nytApi(marker.title, infowindow)
-    //infowindow.setContent('<div>' + marker.title + '</div>');
     infowindow.open(map, marker);
-    // Make sure the marker property is cleared if the infowindow is closed.
     infowindow.addListener('closeclick',function(){
       infowindow.setMarker = null;
     });
@@ -47,17 +45,12 @@ function nytApi(location, placeholder) {
     var items = [];
     var response = data.response.docs;
     $.each(response, function(key, val) {
-        //console.log(val.headline.main);
-        //console.log(location);
         items.push(". Top News (from the NY Times): <a href='" + val.web_url + "'target='_blank'>" + val.headline.main + "</a>");
     });
-    //console.log("These are the items: " + items[1])
-    console.log("This article is about " + location)
     placeholder.setContent("<div>" + location + items[1] + "</div>")
   });
-
+  // Handle failures
   $nytRequest.fail(function() {
-    console.log(location + " Could Not Be Loaded");
   });
 }
 
@@ -68,7 +61,7 @@ function nytApi(location, placeholder) {
 function ViewModel() {
   var self = this;
 
-  // These are the real estate listings that will be shown to the user.
+  // These are the cultural institutions that will be shown to the user.
   var locations = [
     {title: 'Museum of Modern Art', location: {lat: 40.761433, lng: -73.977622}},
     {title: 'The Met', location: {lat: 40.779437, lng: -73.963244}},
@@ -80,14 +73,12 @@ function ViewModel() {
   var largeInfowindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();
 
-  console.log("Building observable array")
 
   // The following group uses the location array to create an array of markers on initialize.
   for (var i = 0; i < locations.length; i++) {
     // Get the position from the location array.
     var position = locations[i].location;
     var title = locations[i].title;
-    //var article = nytApi(locations[i].title)
     // Create a marker per location, and put into markers array.
     var marker = new google.maps.Marker({
       map: map,
@@ -95,7 +86,6 @@ function ViewModel() {
       title: title,
       animation: google.maps.Animation.DROP,
       id: i,
-      //article:article
     });
     // Push the marker to our array of markers.
     console.log("Adding markers to array")
@@ -123,7 +113,7 @@ function ViewModel() {
     self.properties()[i].showItem = ko.observable(true)
   }
 
-
+  // Filter list results
   self.search = function(value){
     for(var i in self.properties()) {
       var property = self.properties()[i]
