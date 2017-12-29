@@ -9,15 +9,15 @@ function initMap() {
     center: {lat: 40.7413549, lng: -73.9980244},
     zoom: 13
   });
+
+  ko.applyBindings(new ViewModel());
 }
 
 /**
  * Error callback for GMap API request
  */
 mapError = () => {
-  console.log("Executing mapError")
-  var errorPage = document.getElementById("errorPage");
-  console.log("The display is: " + errorPage)
+  var errorPage = document.getElementById("errorPage");  
   errorPage.style.display = 'unset';
 };
 
@@ -63,7 +63,7 @@ function nytApi(location, placeholder) {
   });
   // Handle failures
   $nytRequest.fail(function() {
-    placeholder.setContent("<div>" + location + "</div>")
+    placeholder.setContent("<div>" + location + ". Failed to fetch Top News.</div>")
   });
 }
 
@@ -146,9 +146,4 @@ function ViewModel() {
     }
   }
   self.query.subscribe(self.search);
-};
-
-// Call view model
-window.onload = function() {
-  ko.applyBindings(new ViewModel());
 };
